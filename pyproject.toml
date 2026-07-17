@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "chainreaper"
+version = "0.0.1"
+description = "Elite vulnerability-discovery harness for blockchain bug-bounty programs (Glasswing 12-stage pipeline)"
+requires-python = ">=3.11"
+readme = "README.md"
+authors = [{ name = "Muzziebear" }]
+
+# Core deps — needed for the M1 spine + S1 Index. Deliberately minimal:
+# S1 is deterministic and shells out to the (pipx-installed) analysis CLIs,
+# so neither the LLM SDK nor slither/tree-sitter are required to run S1.
+dependencies = [
+  "pydantic>=2.5",   # stage data contracts (§5) + coercion
+  "pyyaml>=6.0",     # layered YAML config (§12)
+  "typer>=0.12",     # CLI surface (§13); pulls click + (optionally) rich
+]
+
+[project.optional-dependencies]
+# S2+ (Recon/Hunt/Critic/...) — the only stages that call the model.
+# Backend binds to the official `anthropic` SDK: messages.parse() returns a
+# validated Pydantic object (our structured emitters) and beta tool_runner
+# drives the agentic loop. If parse()/tool_runner are missing, `pip install -U anthropic`.
+agents = [
+  "anthropic>=0.69",
+]
+# Optional S1 enrichment: Tree-sitter AST/symbols + multi-language support.
+# NOT required for the first S1 increment (Slither alone covers IndexedRepo for Solidity).
+index = [
+  "tree-sitter>=0.22",
+  "tree-sitter-solidity>=1.2.0",
+]
+dev = [
+  "pytest>=8.0",
+  "ruff>=0.6",
+]
+
+[project.scripts]
+chainreaper = "chainreaper.cli:app"
+
+[tool.setuptools.packages.find]
+include = ["chainreaper*"]
+
+[tool.setuptools.package-data]
+chainreaper = ["config/*.yaml", "skills/**/*.yaml", "skills/**/*.md"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py311"

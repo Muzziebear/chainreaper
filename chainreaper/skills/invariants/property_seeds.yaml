@@ -1,0 +1,54 @@
+# crytic/properties seed catalog (spec §9 skills/invariants, IMPL-NOTES "Reuse").
+#
+# Ready-made invariant property libraries to WIRE BEFORE synthesizing custom ones
+# (invariants.md §0: "crytic/properties supplies ready-made ERC4626 / ERC20 /
+# ABDKMath64x64 properties — wire these before writing custom ones"). The S2
+# Invariant Synthesizer reads this via tools/invariant_catalog.py to seed an
+# InvariantSuite from the target's contract_types, then layers target-specific
+# invariants on top.
+#
+# `root` paths are repo-relative (the scaffolder copies/imports from there).
+# `seeds_invariants` cross-references tools_poc/invariants.md IDs (the GMX golden suite).
+
+seeds:
+  - id: erc4626-vault
+    library: "crytic/properties — ERC4626"
+    root: tools_poc/properties/contracts/ERC4626
+    entry: ERC4626PropertyTests.sol
+    properties:
+      - FunctionalAccountingProps   # deposit/mint/withdraw/redeem accounting
+      - RoundingProps               # rounding direction (favor the vault)
+      - SecurityProps               # first-depositor / inflation resistance
+      - MustNotRevertProps
+      - RedeemUsingApprovalProps
+      - SenderIndependentProps
+    contract_types: [vault, liquid-staking, yield]
+    categories: [share_price, solvency, fee]
+    seeds_invariants: [PRICE-03, SOLV-04, FEE-01]   # GM/GLP share math, redemption backing, rounding
+    tool: medusa                                    # echidna also works (4626 harness shipped)
+    note: >
+      GM/GLP tokens are ERC4626-like. Wire the share/round-trip/inflation props
+      before any custom PRICE-* invariant; RoundingProps directly seeds FEE-01,
+      SecurityProps the first-depositor class.
+
+  - id: abdk-fixed-point
+    library: "crytic/properties — ABDKMath64x64"
+    root: tools_poc/properties/contracts/Math/ABDKMath64x64
+    contract_types: [perp, amm, oracle, vault]
+    categories: [position_pnl, fee]
+    seeds_invariants: [POS-03, FEE-01, FEE-02]      # averagePrice math, rounding-favors-pool, no div-before-mul
+    tool: halmos                                    # symbolic proof of arithmetic props (also echidna)
+    note: >
+      Fixed-point precision properties for getNextAveragePrice / PnL / fee math —
+      the arithmetic invariants fuzzing can't exhaust (invariants.md tier 4).
+
+  - id: erc20-token
+    library: "crytic/properties — ERC20"
+    root: tools_poc/properties/contracts/ERC20
+    contract_types: [token]
+    categories: [solvency]
+    seeds_invariants: [SOLV-03]                     # conservation / no value minted from nothing
+    tool: medusa
+    note: >
+      Generic token conservation. Wire for any in-scope ERC20 (collateral tokens,
+      GMX/esGMX, market tokens) as a baseline before solvency invariants.

@@ -1,0 +1,170 @@
+# Chainreaper default configuration (spec §12). Layered: defaults < --config < CLI.
+
+run:
+  runs_dir: runs
+  feedback_rounds: 1
+  max_usd: null            # budget ceiling; null = unbounded
+
+# S0 Discovery (spec §S0/§12) — deterministic, host-only egress, NO model calls.
+# `discover` pulls + ranks the Immunefi board; `scan --target <slug>` fetches the
+# program (information/scope/resources `__next_f` flight data), clones the in-scope
+# source repos, and maps in-scope contract names → files (the allowlist). filters are
+# the discover defaults; ranking_weights drive the transparent board score.
+discovery:
+  source: immunefi
+  cache_dir: runs/_targets   # snapshot cache for fetched programs + the board flight
+  # Source of truth for the in-scope code (see stages/s0_discovery._source_policy):
+  #   auto     — verified DEPLOYED source (explorer) when scope is address-based AND a key
+  #              is available, else the repo. The deployed source is the exact in-scope
+  #              artifact (no superset, self-contained → no npm/truffle build); repo stays
+  #              as context + fallback for unverified addresses.
+  #   explorer — force explorer-verified source (requires a key).
+  #   repo     — force the cloned repo (pre-launch / repo-scoped programs).
+  source_policy: auto
+  explorer_rate_delay_s: 0.25   # politeness pause between explorer calls (free tier ~5/s)
+  # Fork-RPC discovery (targets/rpc_resolver.py): S0 resolves+probes an RPC per in-scope
+  # chain (<CHAIN>_RPC_URL env/keystore → hunt.fork.rpc_urls → known public list) and
+  # records a redacted preview on the Target, so the operator confirms RPC coverage BEFORE
+  # indexing. A chain with no reachable RPC is flagged needs_key (supply an archive node).
+  fork_discovery: true
+  fork_probe_public: true       # probe the built-in public endpoints when nothing configured
+  filters:
+    min_max_bounty_usd: 50000
+    open_source_only: true   # board can't prove open-source; only excludes KNOWN-closed
+    chains: [ethereum, arbitrum, base, polygon, avalanche, optimism]
+    languages: [solidity, vyper]
+    allow_kyc: true          # KYC programs are surfaced + scannable by default (KYC only
+                             # gates the payout, not the research). Set false to exclude
+                             # them, or override per-run with scan/discover --no-allow-kyc.
+  ranking_weights:           # score = Σ wᵢ·norm(componentᵢ) − penalties (all [0,1])
+    max_bounty: 0.30         # log-scaled so one mega-bounty doesn't dominate
+    total_paid: 0.20
+    open_source: 0.20
+    sc_focus: 0.15
+    scope_clarity: 0.10
+    kyc_penalty: 0.05        # subtracted
+    crowd_saturation: 0.0
+  explorer_api_keys: {}      # {arbitrum: "...", ethereum: "..."} for the verified-source fallback
+
+# Per-role model + reasoning effort (IMPL-NOTES §6; grounded vs claude-api skill).
+# Aliases only — never append date suffixes. S1 does not call the model.
+# All roles run the latest Opus (claude-opus-4-8) by default; per-role effort is kept
+# tuned (recon/dedupe/coerce were Sonnet/Haiku before — now Opus too).
+models:
+  hunt:   { id: claude-opus-4-8,   effort: high }
+  critic: { id: claude-opus-4-8,   effort: high }
+  trace:  { id: claude-opus-4-8,   effort: high }
+  recon:  { id: claude-opus-4-8,   effort: high }
+  dedupe: { id: claude-opus-4-8,   effort: medium }
+  coerce: { id: claude-opus-4-8,   effort: low }
+
+# LLM backend. `claude_cli` drives the Claude Code subscription via `claude -p`
+# (no API key); `anthropic` uses the developer API SDK (needs ANTHROPIC_API_KEY).
+# Override per-run with `scan --provider <name>`.
+backend:
+  provider: claude_cli     # claude_cli | anthropic
+  stream_min_tokens: 16000
+
+# S2 Recon (first model-calling stage). max_turns bounds each agentic exploration
+# loop (anthropic backend). For claude_cli each agent runs ONE explore+emit
+# session bounded by session_timeout_s; explore_timeout_s is the anthropic agentic
+# budget (and the claude_cli text-helper fallback).
+recon:
+  max_turns: 24
+  session_timeout_s: 21600  # 6h ceiling — agents finish when done; never cut off a deep explore
+  explore_timeout_s: 21600  # 6h (anthropic agentic budget + claude_cli text-helper fallback)
+  # synthesis_mode (default on): split Recon into EXPLORE (profile + invariants, no
+  # tasks) → threat-research (candidate leads, fed the invariants) → SYNTHESIS (one
+  # session that is the SOLE author of the unified, all-informed HunterTask queue).
+  # Off = legacy single-session recon (profile+invariants+tasks at once) + appended
+  # threat-research. The split costs one extra (cheaper) LLM session but mints one
+  # coherent, deduped queue informed by spec + code + invariants + threat research.
+  synthesis_mode: true
+  # Task 1B — dynamic on-fork reachability fallback (default OFF; costs fork calls).
+  # After static edge resolution (task 1A), any task still with no reachable entrypoint
+  # is checked against a fork trace of the deployed entrypoints to establish ground-truth
+  # reachability. Turn on for modular/proxy/Hub-Spoke targets where static resolution is
+  # insufficient and a fork RPC + deployed addresses are available.
+  dynamic_reachability: false
+
+# Agent scoping + the output obligation (claude_cli: prompt + permission config +
+# hooks). min_* are enforced by the Stop hook (output ROWS, not script calls);
+# max_stop_blocks caps the retries before the stage fails loudly.
+agents:
+  enforce_hooks: true
+  min_tasks: 8
+  min_invariants: 12
+  max_stop_blocks: 3
+
+# S3 Prefilter (deterministic VALIDITY + BUDGET gate — NO model calls). The S2 Recon
+# SYNTHESIS session is the sole author of the queue: it already RANKS (priority 1..4 with
+# profile + invariants + threat dossier in context) and DEDUPES (folds true duplicates).
+# So S3 does NOT re-rank or re-dedupe. It only does what the LLM should not own: DROP
+# invalid/out-of-scope tasks (dossier resolved no in-scope target — catches a hallucinated
+# scope_hint), ORDER by the agent priority (one tiebreak: reachable entrypoint) so a budget
+# cap takes the best top-K, CAP to budget, and TAG the discovery seed. See recon/prefilter.py.
+prefilter:
+  max_hunt_tasks: null     # global cap on tasks scheduled into S4; null = ALL (no cap, the default)
+  per_class_cap: null      # cap per vuln_class; null = ALL (no cap)
+  invariant_quota: null    # invariant-driven slots reserved when a cap binds; null = n/a
+  # Set a cap (e.g. max_hunt_tasks: 16) only to deliberately bound a run's cost; by
+  # default every valid task is scheduled so comprehensive recon coverage survives
+  # prefiltering. When a cap binds, a per-class floor + the invariant_quota keep
+  # high-severity / invariant-driven classes from being starved.
+
+# S4 Hunt (round 1) — one Hunter agent per scheduled task, each in its own writable
+# Foundry sandbox (spec §S4/§10). The hunter writes + compiles + runs an impact PoC
+# from a real public entrypoint, then emits Finding(s) + a REQUIRED hunt-finish
+# outcome. The seed tag (invariant-campaign|hypothesis) only changes which tool it
+# fires first — every lead still converges on the fork-PoC + impact step.
+hunt:
+  concurrency: 1           # serial by default; raise toward hunt.max_concurrent for big targets
+  per_task_timeout_s: 21600 # 6h per-Hunter session budget (build + run + iterate a PoC); never cut off a valid lead
+  max_tasks: null          # cap scheduled tasks hunted this run (null = all); set 1 for a smoke check
+  resume: false            # true = keep prior findings/outcomes, hunt only tasks without one
+                           # (i.e. "run the remaining scheduled tasks"); combine with max_tasks
+  model_role: hunt         # models.hunt = claude-opus-4-8 (effort high)
+  # Fork preflight (runtime/fork.py): per chain, resolve a URL → validate chainId →
+  # pin a block → optionally front it with one shared `anvil` fork → export
+  # <CHAIN>_RPC_URL for foundry.toml. Degrades cleanly to local-only if unset/unreachable.
+  fork:
+    rpc_urls: {}           # {arbitrum: "https://...", mainnet: "https://..."}; also read from <CHAIN>_RPC_URL env
+    block: {}              # {arbitrum: 250000000 | "latest"}; default latest → pinned to the probed head
+    shared_anvil: true     # one `anvil --fork-url` per chain (cache + rate-limit friendly); false = hunters hit upstream
+    probe_timeout_s: 8     # JSON-RPC validate timeout (fail fast, never hang the stage)
+    anvil_port_base: 8545  # shared anvil forks bind 8545, 8546, … (one per ready chain)
+    anvil_ready_timeout_s: 90  # wait for anvil to fetch the fork block + open the port (slow public nodes)
+    anvil_args: null       # override anvil flags (default: --timeout 20000 --retries 8 for slow upstreams)
+    chain_ids: {}          # override the expected chainId per chain (validate step)
+    rpc: {}                # optional override of foundry.toml [rpc_endpoints]
+
+# S5 Validate (Critic, T3.1). One adversarial critic per finding by default (refute,
+# re-run the PoC) → verdict. Raise votes_* in an overlay for an N-vote panel.
+validate:
+  concurrency: 1            # serial by default (claude_cli Opus: keep ≤2)
+  per_task_timeout_s: 21600 # 6h per-Critic session budget (re-run the PoC + judge); never cut off a valid refutation/repro
+  votes_default: 1          # critics per low/medium/info finding
+  votes_high_sev: 1         # critics per critical/high finding (1 = single critic, no panel)
+  max_findings: null        # cap findings validated this run (null = all); 0 = build only (no tokens)
+  model_role: critic        # models.critic = claude-opus-4-8 (effort high)
+  fork:                     # same shape as hunt.fork (critics re-run fork PoCs)
+    rpc_urls: {}
+    block: {}
+    shared_anvil: true
+    probe_timeout_s: 8
+    anvil_port_base: 8555   # offset from hunt's 8545 so a combined run doesn't clash
+    anvil_ready_timeout_s: 90
+    anvil_args: null
+    chain_ids: {}
+    rpc: {}
+
+# Tool execution backend (IMPL-NOTES §2). `host` runs the toolchain off an augmented
+# PATH (~/.foundry/bin etc.); `docker` is the spec §10 chainreaper-sandbox image
+# (seam in place, image pending). Per-task Foundry sandboxes live under runs/{id}/sandbox/.
+runtime:
+  exec_backend: host       # host | docker
+  default_timeout_s: 1800
+
+index:
+  use_tree_sitter: false   # Slither alone covers IndexedRepo for Solidity (IMPL-NOTES §5)
+  sast_tools: [slither]    # aderyn/solhint/mythril added later

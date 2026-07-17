@@ -1,0 +1,157 @@
+# Historical-hack replay calibration registry (T3.2 / spec §16a).
+#
+# Each case is a known exploit the harness should be able to (a) REPRODUCE on a
+# fork from a reference PoC — the GROUND-TRUTH positive control — and (b)
+# REDISCOVER independently when pointed at the victim (the real measurement).
+#
+# poc_source:
+#   vendored — a self-contained reference PoC under cases/<poc_ref>/ that runs
+#              LOCALLY (no fork / no RPC); the offline positive control.
+#   url      — a DeFiHackLabs PoC fetched at replay time; forks the chain at the
+#              pre-hack block, so it needs an ARCHIVE <CHAIN>_RPC_URL (and the
+#              DeFiHackLabs helper bundle). Gated; not run offline.
+#   none     — rediscovery-only (no reference PoC).
+#
+# vuln_classes are VulnClass enum VALUES — what a correct rediscovery should label
+# the finding, so `calibrate score` can mark hit/miss against the harness output.
+
+cases:
+  - id: minivault-inflation
+    name: MiniVault first-depositor / donation share-inflation
+    chain: local
+    needs_fork: false
+    victims: []
+    loss_usd: null
+    vuln_classes: [first_depositor_inflation, arithmetic_error]
+    poc_source: vendored
+    poc_ref: minivault-inflation
+    poc_test: testExploit
+    reference_url: null
+    notes: >
+      Self-contained synthetic case (reuses bench/vuln-vault MiniVault). The
+      offline ground-truth positive control: attacker inflates the share price by
+      donation and steals a later depositor's principal. The harness already
+      rediscovers + proves this on run-id bench-vault (see memory
+      chainreaper-s4-built), so it is the known TRUE POSITIVE the calibration is
+      anchored to.
+
+  # --- Real DeFiHackLabs cases ------------------------------------------------- #
+  # Cases carrying `rediscovery: true` + a root_cause oracle drive the BILLED
+  # `calibrate --rediscovery` measurement (task 0): each has an ATTACKER-TRIGGERABLE,
+  # IN-SCOPE, no-oracle/no-admin root cause — the exact class the harness has never
+  # produced. A correct rediscovery = an `attacker_reachable` finding landing on the
+  # named root_cause_contract + function.
+  - id: btc24h-2024-12
+    name: BTC24H (Polygon) — unprotected claim()
+    chain: polygon
+    block: 65560668          # blocknumToForkFrom in the PoC (pre-hack)
+    victims: ["0x968e1c984A431F3D0299563F15d48C395f70F719"]
+    loss_usd: 85700
+    vuln_classes: [access_control, logic_error]   # root cause: unprotected Lock.claim()
+    poc_source: defihacklabs
+    poc_ref: src/test/2024-12/BTC24H_exp.sol
+    poc_test: testExploit
+    reference_url: https://github.com/SunWeb3Sec/DeFiHackLabs/blob/main/src/test/2024-12/BTC24H_exp.sol
+    rediscovery: true
+    rediscovery_chain: polygon
+    root_cause_contract: Lock
+    root_cause_functions: [claim]
+    expected_trigger_class: attacker_reachable
+    rediscovery_addresses: ["0x968e1c984A431F3D0299563F15d48C395f70F719"]
+    notes: >
+      REPRODUCED 2026-06-24 on a live Polygon archive fork; the harness ALSO
+      independently REDISCOVERED it (billed S2→S4, T-AC-01 unauthorized-claim,
+      attacker_reachable, live-validated). The KNOWN-POSITIVE anchor for the
+      rediscovery suite — it must score REDISCOVERED.
+
+  - id: wiselending-2023-10
+    name: Wise Lending — donation share-price inflation
+    chain: mainnet
+    block: 18342120
+    victims: ["0x84524bAa1951247b3A2617A843e6eCe915Bb9674"]
+    loss_usd: 260000
+    vuln_classes: [first_depositor_inflation, arithmetic_error]
+    poc_source: defihacklabs
+    poc_ref: src/test/2023-10/WiseLending_exp.sol
+    poc_test: testExploit
+    reference_url: https://github.com/SunWeb3Sec/DeFiHackLabs/blob/main/src/test/2023-10/WiseLending_exp.sol
+    rediscovery: true
+    rediscovery_chain: ethereum
+    root_cause_contract: WiseLending
+    root_cause_functions: [depositExactAmount, borrowExactAmount, _coreBorrowTokens]
+    expected_trigger_class: attacker_reachable
+    rediscovery_addresses: ["0x84524bAa1951247b3A2617A843e6eCe915Bb9674"]
+    notes: >
+      THE canonical missing class — a PERMISSIONLESS donation/first-depositor share
+      inflation (deposit 1 share, donate ~50 WBTC to inflate the pool share price,
+      then borrow all pool tokens against the inflated collateral). No oracle, no
+      admin, single victim contract. Whitehat rescue (~$260K).
+
+  - id: orion-2023-02
+    name: Orion Protocol — swap reentrancy balance inflation
+    chain: mainnet
+    block: 16542147
+    victims: ["0xb5599f568D3f3e6113B286d010d2BCa40A7745AA"]
+    loss_usd: 2900000
+    vuln_classes: [reentrancy]
+    poc_source: defihacklabs
+    poc_ref: src/test/2023-02/Orion_exp.sol
+    poc_test: testExploit
+    reference_url: https://github.com/SunWeb3Sec/DeFiHackLabs/blob/main/src/test/2023-02/Orion_exp.sol
+    rediscovery: true
+    rediscovery_chain: ethereum
+    root_cause_contract: Exchange
+    root_cause_functions: [swapThroughOrionPool, depositAsset, withdraw]
+    expected_trigger_class: attacker_reachable
+    rediscovery_addresses: ["0xb5599f568D3f3e6113B286d010d2BCa40A7745AA"]
+    notes: >
+      PERMISSIONLESS reentrancy: a self-created ERC20 with a transfer hook re-enters
+      the Exchange's swap while balances are mid-update, inflating the attacker's
+      internal depositAsset balance, then withdraw()n. No oracle/admin. Upgradeable
+      proxy → materialize follows to the logic contract.
+
+  - id: sonne-2024-05
+    name: Sonne Finance — empty-market exchange-rate donation
+    chain: optimism
+    block: 120062492         # 120_062_493 - 1 (pre-hack) in the PoC
+    victims: ["0xe3b81318B1b6776F0877c3770AfDdFf97b9f5fE5"]
+    loss_usd: 20000000
+    vuln_classes: [first_depositor_inflation, arithmetic_error]
+    poc_source: defihacklabs
+    poc_ref: src/test/2024-05/Sonne_exp.sol
+    poc_test: testExploit
+    reference_url: https://github.com/SunWeb3Sec/DeFiHackLabs/blob/main/src/test/2024-05/Sonne_exp.sol
+    rediscovery: true
+    rediscovery_chain: optimism
+    root_cause_contract: CToken
+    root_cause_functions: [mint, redeemUnderlying, exchangeRateStoredInternal]
+    expected_trigger_class: attacker_reachable
+    rediscovery_addresses: ["0xe3b81318B1b6776F0877c3770AfDdFf97b9f5fE5"]
+    notes: >
+      Classic Compound-fork empty-market donation: mint 2 wei of a freshly-listed
+      cToken, donate the underlying to inflate exchangeRate (rounding), borrow against
+      the inflated collateral, redeem. PERMISSIONLESS, in-scope, ~$20M. Optimism —
+      needs OPTIMISM_RPC_URL. cToken is a delegator proxy → follows to CErc20Delegate.
+
+  - id: hedgey-finance-2024-04
+    name: Hedgey Finance — attacker-supplied token / approval drain
+    chain: mainnet
+    block: 19687889         # blocknumToForkFrom in the PoC (pre-hack)
+    victims: ["0xBc452fdC8F851d7c5B72e1Fe74DFB63bb793D511"]
+    attacker: "0xDed2b1a426E1b7d415A40Bcad44e98F47181dda2"
+    loss_usd: 48000000
+    vuln_classes: [unchecked_external_calls, access_control]
+    poc_source: defihacklabs
+    poc_ref: src/test/2024-04/HedgeyFinance_exp.sol
+    poc_test: testExploit
+    reference_url: https://github.com/SunWeb3Sec/DeFiHackLabs/blob/main/src/test/2024-04/HedgeyFinance_exp.sol
+    rediscovery: true
+    rediscovery_chain: ethereum
+    root_cause_contract: ClaimCampaigns
+    root_cause_functions: [createLockedCampaign, claim, claimTokens]
+    expected_trigger_class: attacker_reachable
+    rediscovery_addresses: ["0xBc452fdC8F851d7c5B72e1Fe74DFB63bb793D511"]
+    notes: >
+      PERMISSIONLESS: createLockedCampaign takes an attacker-supplied token; the claim
+      path re-enters / calls it, draining prior campaigns' approvals ($48M). Ethereum
+      mainnet — needs an archive MAINNET_RPC_URL. Same defihacklabs runner as btc24h.

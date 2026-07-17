@@ -1,0 +1,38 @@
+# Secrets & local credentials
+.chainreaper/
+.env
+*.env
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+build/
+dist/
+
+# Run artifacts & findings (never publish live-target output)
+runs/
+*.out
+
+# External toolchain fetched by tools_poc/setup/install.sh
+tools_poc/bin/
+tools_poc/4naly3er/
+tools_poc/properties/
+tools_poc/gmx-invariants/
+tools_poc/results/
+tools_poc/smoke/
+
+# Foundry / build outputs
+out/
+cache/
+crytic-export/
+artifacts/
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/

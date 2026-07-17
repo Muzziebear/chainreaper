@@ -1,0 +1,177 @@
+# Protocol-class incident / regression catalog (spec §9 skills/contract_types).
+#
+# The KNOWN high-severity incident classes per contract type, indexed by
+# `applies_to`. The Invariant Synthesizer classifies the target's contract_types
+# (S2), and `tools/incident_catalog.py` injects the matching classes — so the
+# regression-invariant set is driven by CLASSIFICATION, not hardcoded per target.
+# Point Chainreaper at a lending protocol, a bridge, or an NFT marketplace and the
+# matched classes change with zero prompt edits.
+#
+# Each class is a *generic* property to encode as a regression invariant, bound to
+# THIS codebase's real hooks (the agent finds them via code-index) and framed for
+# the analyzer that ran at index time (the `slither` detectors named below).
+# `property` text deliberately carries the semantic keywords (consistent / atomic /
+# divergent / conserve / monotonic) the invariant must preserve.
+
+classes:
+  - id_hint: PRICE
+    title: Share-price / AUM reentrancy stability
+    applies_to: [vault, erc4626, perp, perp-dex, amm, liquid-staking, glv-vault, yield, dex]
+    category: share_price
+    sc_class: price_oracle_manipulation
+    property: >
+      The pool-value / share-price / AUM getter must read CONSISTENTLY within a
+      transaction: a reentrant re-read must never observe it mid-update. A getter
+      observable inconsistent mid-tx is the share-price manipulation vector.
+    bind_to: the AUM / share-price / pool-value getter and the pool accounting it reads
+    slither: [reentrancy-eth, reentrancy-no-eth, reentrancy-balance, reentrancy-benign]
+
+  - id_hint: PRICE
+    title: First-depositor / share-inflation
+    applies_to: [vault, erc4626, liquid-staking, yield]
+    category: share_price
+    sc_class: first_depositor_inflation
+    property: >
+      A first deposit (or any supply==0 / poolValue>0 edge) must not let an attacker
+      mint shares priced below fair value and withdraw to drain depositors. The
+      minimum-shares / dead-shares / first-deposit guard must hold.
+    bind_to: the deposit→mint share-conversion math and the first-deposit guard
+    slither: [divide-before-multiply]
+
+  - id_hint: POS
+    title: Paired-accumulator (size ↔ value) coupling
+    applies_to: [perp, perp-dex]
+    category: position_pnl
+    sc_class: logic_error
+    property: >
+      Paired accounting accumulators that must move together — e.g. open-interest
+      SIZE and open-interest IN TOKENS plus the global average price — must update
+      ATOMICALLY and stay CONSISTENT; no path may write one without the others, and
+      a reentrant read must never observe them DIVERGENT. The lag between the two
+      updates is the exploitable coupling. Assert it as a var_access atomicity fact
+      over the paired state vars, NOT a bare "function X calls function Y" statement.
+    bind_to: the paired accumulators (size / in-tokens / average-price) and their applyDelta writers
+    slither: [reentrancy-no-eth, reentrancy-benign]
+
+  - id_hint: EXEC
+    title: Cross-contract reentrancy in execution / callbacks
+    applies_to: [vault, perp, perp-dex, amm, bridge, multichain, router, lending, dex]
+    category: execution
+    sc_class: reentrancy
+    property: >
+      An execution / transfer / order callback (native-token unwrap, after-execution
+      hook, ERC-777/1155 receive) must not reenter and mutate pool / price / position
+      state mid-execution; the reentrancy guard must cover every such path.
+    bind_to: the execution + callback path, its external-call/transfer sinks, and the reentrancy guard
+    slither: [reentrancy-eth, reentrancy-no-eth, reentrancy-events]
+
+  - id_hint: LIQ
+    title: Liquidation predicate integrity
+    applies_to: [perp, perp-dex, lending]
+    category: liquidation
+    sc_class: logic_error
+    property: >
+      The solvency / liquidation predicate (collateral value vs debt + thresholds)
+      must be MONOTONIC and non-bypassable: an underwater position must be
+      liquidatable and a healthy one must not be; manipulating a single input
+      (price, impact cap, fee) must not incorrectly flip it.
+    bind_to: the liquidation/solvency predicate and the collateral/debt valuation it reads
+    slither: [divide-before-multiply, incorrect-equality]
+
+  - id_hint: FEE
+    title: Fee / funding / interest accrual conservation
+    applies_to: [perp, perp-dex, lending, amm, vault]
+    category: fee
+    sc_class: logic_error
+    property: >
+      Accrued fees / funding / interest must CONSERVE: the sum credited to LPs +
+      protocol equals the sum debited from users; rounding always favors the pool;
+      no path mints value from nothing or double-counts.
+    bind_to: the fee/funding/interest accrual state and the rounding direction
+    slither: [divide-before-multiply, unused-return]
+
+  - id_hint: SOLV
+    title: Reserve / constant-function solvency
+    applies_to: [amm, dex, vault, lending]
+    category: solvency
+    sc_class: logic_error
+    property: >
+      The pool's solvency invariant must hold: the constant-function product
+      (e.g. x*y >= k after fees) must never DECREASE except by the defined fee, and
+      reserves must equal balances minus protocol-owed amounts (no value leaks).
+    bind_to: the swap/withdraw math and the reserve accounting
+    slither: [divide-before-multiply]
+
+  - id_hint: ORAC
+    title: Oracle freshness, deviation & signer validation
+    applies_to: [oracle, perp, perp-dex, lending]
+    category: oracle
+    sc_class: price_oracle_manipulation
+    property: >
+      A consumed price must be FRESH (within max age), within DEVIATION bounds vs a
+      reference, and gated by sequencer-uptime on L2s; stale / out-of-band prices
+      must revert. Signed-price signer/nonce/age validation must be complete and
+      not bypassable.
+    bind_to: the price-validation path (age / deviation / signer checks)
+    slither: [timestamp, incorrect-equality]
+
+  - id_hint: XCHAIN
+    title: Cross-chain message integrity & balance conservation
+    applies_to: [bridge, multichain]
+    category: cross_module
+    sc_class: bridge_replay
+    property: >
+      A cross-chain message must be processed AT MOST ONCE (replay-protected); its
+      source-chain / sender / account fields must be VALIDATED (not attacker-set);
+      and mint-on-destination must equal burn-on-source (no value created). Relay /
+      lzCompose account fields must not be spoofable.
+    bind_to: the message-receive path, the replay/nonce store, and the mint/burn accounting
+    slither: [arbitrary-send-erc20, arbitrary-send-eth]
+
+  - id_hint: AC
+    title: Signature / nonce replay
+    applies_to: [router, multichain, bridge, perp-dex]
+    category: access
+    sc_class: signature_replay
+    property: >
+      Signed actions (relay, permit, gasless meta-tx) must be NONCE- and
+      DOMAIN-scoped: no replay across chains / contracts / time, and no tx.origin
+      authorization fallback.
+    bind_to: the signature-validation path and the nonce store
+    slither: [tx-origin, incorrect-equality]
+
+  - id_hint: AC
+    title: Privileged-action & upgrade authorization
+    applies_to: [vault, perp, perp-dex, amm, lending, bridge, multichain, oracle, governance, token, nft, router, dex, liquid-staking]
+    category: access
+    sc_class: access_control
+    property: >
+      Every state-mutating privileged action (config writes, role grants, parameter
+      sets, upgrades, initialize) must be gated by the correct role/owner and not
+      front-runnable; initializers must be ONE-SHOT; there must be no unprotected
+      upgrade or self-destruct.
+    bind_to: privileged setters / initializers / upgrade entrypoints and their role checks
+    slither: [unprotected-upgrade, suicidal, arbitrary-send-eth, missing-zero-check]
+
+  - id_hint: GOV
+    title: Governance / vote-weight & timelock integrity
+    applies_to: [governance]
+    category: access
+    sc_class: logic_error
+    property: >
+      Vote weight must be measured at a fixed SNAPSHOT (no flash-loan inflation);
+      proposals must clear quorum + timelock before execution; queued actions must
+      be immutable after queueing.
+    bind_to: the vote-counting, proposal-execution, and timelock path
+    slither: [reentrancy-eth, timestamp]
+
+  - id_hint: SOLV
+    title: Token supply conservation
+    applies_to: [token, nft, liquid-staking]
+    category: solvency
+    sc_class: logic_error
+    property: >
+      Σ balances == totalSupply at all times; mint/burn happens only through
+      authorized paths; no transfer creates or destroys value.
+    bind_to: the balance/supply accounting and mint/burn authorization
+    slither: [arbitrary-send-erc20]

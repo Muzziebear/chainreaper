@@ -1,0 +1,1023 @@
+{
+"contentfulId": "6nZw6IPi0wgWGut2uLGcFr",
+"slug": "gainsnetwork",
+"project": "Gains Network",
+"url": "/bug-bounty/gainsnetwork/information/",
+"maxBounty": 200000,
+"logo": "https://images.ctfassets.net/t3wqy70tc3bv/53Lo497dIPH3nrT78lr8qx/8009fbbcd62a15a011fa8c394e5c5c59/Gains_Network_logo.jpeg",
+"launchDate": "2022-03-10T20:00:00.000Z",
+"endDate": null,
+"updatedDate": "2026-01-29T22:04:20.356Z",
+"kyc": false,
+"kycLevel": null,
+"audits": [],
+"assets": [
+{
+"id": "1xiu2gRT5gxq4N3docaq91",
+"url": "https://polygonscan.com/address/0xE5417Af564e4bFDA1c483642db72007871397896",
+"type": "smart_contract",
+"addedAt": "2022-05-10T16:30:44.647Z",
+"revision": 0,
+"description": "GainsNetworkToken",
+"isSafeHarbor": false,
+"isPrimacyOfImpact": false,
+"fund": null,
+"info": null
+},
+{
+"id": "6JPQAu5DqWAKfgvuHYQkms",
+"url": "https://arbiscan.io/address/0x18c11FD286C5EC11c3b683Caa813B77f5163A122",
+"type": "smart_contract",
+"addedAt": "2023-01-06T10:49:46.655Z",
+"revision": 0,
+"description": "GainsNetworkToken",
+"isSafeHarbor": false,
+"isPrimacyOfImpact": false,
+"fund": null,
+"info": null
+},
+{
+"id": "6EW3s1mUhhxknFzctu5sqv",
+"url": "https://polygonscan.com/address/0x7075cAB6bCCA06613e2d071bd918D1a0241379E2",
+"type": "smart_contract",
+"addedAt": "2022-05-10T16:30:45.686Z",
+"revision": 0,
+"description": "GFarm2Token",
+"isSafeHarbor": false,
+"isPrimacyOfImpact": false,
+"fund": null,
+"info": null
+},
+{
+"id": "7KFWks7gaIU1E2MwE4k0Sa",
+"url": "https://etherscan.io/address/0x831091da075665168e01898c6dac004a867f1e1b",
+"type": "smart_contract",
+"addedAt": "2023-01-06T10:51:31.519Z",
+"revision": 0,
+"description": "GFarmToken",
+"isSafeHarbor": false,
+"isPrimacyOfImpact": false,
+"fund": null,
+"info": null
+},
+{
+"id": "1MPuC1F8sajwrnfMgYYNKG",
+"url": "https://polygonscan.com/address/0xDF774A4F3EA5095535f5B8f5b9149caF90FF75Bd",
+"type": "smart_contract",
+"addedAt": "2023-01-06T11:11:02.653Z",
+"revision": 0,
+"description": "ERC20Bridge",
+"isSafeHarbor": false,
+"isPrimacyOfImpact": false,
+"fund": null,
+"info": null
+},
+{
+"id": "4HrBJsPjGsm5ZZSc78g6vj",
+"url": "https://arbiscan.io/address/0x01cAaaA682Ceba8cd6c02f93BB1393fB415fA5e2",
+"type": "smart_contract",
+"addedAt": "2023-01-06T11:11:22.655Z",
+"revision": 0,
+"description": "ERC20Bridge",
+"isSafeHarbor": false,
+"isPrimacyOfImpact": false,
+"fund": null,
+"info": null
+},
+{
+"id": "3rPrrluZMg8Zaw8jRTkvuf",
+"url": "https://polygonscan.com/address/0xa33f7069f075A54481868e4C0b8D26925A218362",
+"type": "smart_contract",
+"addedAt": "2023-01-06T11:11:44.033Z",
+"revision": 0,
+"description": "ERC721LockingBridge",
+"isSafeHarbor": false,
+"isPrimacyOfImpact": false,
+"fund": null,
+"info": null
+},
+{
+"id": "FOcM1N3ihWaUMKSK9Xbkx",
+"url": "https://arbiscan.io/address/0x0F9E4375facBeB90DAA850f677819b438ce50827",
+"type": "smart_contract",
+"addedAt": "2023-01-06T11:12:05.966Z",
+"revision": 0,
+"description": "ERC721MintingBridge",
+"isSafeHarbor": false,
+"isPrimacyOfImpact": false,
+"fund": null,
+"info": null
+},
+{
+"id": "3KjWOSvlizntaA8N1q1Vj4",
+"url": "https://polygonscan.com/address/0x91993f2101cc758D0dEB7279d41e880F7dEFe827",
+"type": "smart_contract",
+"addedAt": "2023-01-06T11:12:28.202Z",
+"revision": 0,
+"description": "GToken",
+"isSafeHarbor": false,
+"isPrimacyOfImpact": false,
+"fund": null,
+"info": null
+},
+{
+"id": "TEApTAscbsT0v0tmJC1SZ",
+"url": "https://arbiscan.io/address/0xd85E038593d7A098614721EaE955EC2022B9B91B",
+"type": "smart_contract",
+"addedAt": "2023-01-06T11:12:47.502Z",
+"revision": 0,
+"description": "GToken",
+"isSafeHarbor": false,
+"isPrimacyOfImpact": false,
+"fund": null,
+"info": null
+},
+{
+"id": "TNU4pT6qYMHPiVm8Pit7m",
+"url": "https://polygonscan.com/address/0x8d687276543b92819F2f2B5C3faad4AD27F4440c",
+"type": "smart_contract",
+"addedAt": "2023-01-06T11:13:27.696Z",
+"revision": 0,
+"description": "GTokenOpenPnlFeed",
+"isSafeHarbor": false,
+"isPrimacyOfImpact": false,
+"fund": null,
+"info": null
+},
+{
+"id": "Y9CvHbk7tQB2XRre1VH5G",
+"url": "https://arbiscan.io/address/0x990BA9Edd8a9615A23E4c452E63A80e519A4a23D",
+"type": "smart_contract",
+"addedAt": "2023-01-06T11:13:47.143Z",
+"revision": 0,
+"description": "GTokenOpenPnlFeed",
+"isSafeHarbor": false,
+"isPrimacyOfImpact": false,
+"fund": null,
+"info": null
+},
+{
+"id": "5LVCTIHPVlJ2y1n5V7RYtj",
+"url": "https://polygonscan.com/address/0xDd42AA3920C1d5b5FD95055d852135416369Bcc1",
+"type": "smart_contract",
+"addedAt": "2023-01-06T11:14:07.548Z",
+"revision": 0,
+"description": "GTokenLockedDepositNft",
+"isSafeHarbor": false,
+"isPrimacyOfImpact": false,
+"fund": null,
+"info": null
+},
+{
+"id": "6eUzCMzNo6uiyRH4vYatCN",
+"url": "https://arbiscan.io/address/0x673cf5AB7b44Caac43C80dE5b99A37Ed5B3E4Cc6",
+"type": "smart_contract",
+"addedAt": "2023-01-06T11:14:28.486Z",
+"revision": 0,
+"description": "GTokenLockedDepositNft",
+"isSafeHarbor": false,
+"isPrimacyOfImpact": false,
+"fund": null,
+"info": null
+},
+{
+"id": "40vBlJR1pkC8hrBXr29cGO",
+"url": "https://polygonscan.com/address/0x209A9A01980377916851af2cA075C2b170452018",
+"type": "smart_contract",
+"addedAt": "2024-02-02T14:02:00.091Z",
+"revision": 0,
+"description": "GNSMultiCollatDiamond (and all its facets)",
+"isSafeHarbor": false,
+"isPrimacyOfImpact": false,
+"fund": null,
+"info": null
+},
+{
+"id": "4tRLyyDQSM8rh6m33Zs1A2",
+"url": "https://arbiscan.io/address/0xFF162c694eAA571f685030649814282eA457f169",
+"type": "smart_contract",
+"addedAt": "2024-02-02T14:02:14.449Z",
+"revision": 0,
+"description": "GNSMultiCollatDiamond (and all its facets)",
+"isSafeHarbor": false,
+"isPrimacyOfImpact": false,
+"fund": null,
+"info": null
+},
+{
+"id": "1moAR9Ss558hw8IMHpuibV",
+"url": "https://polygonscan.com/address/0x8C74B2256fFb6705F14aDA8E86FBd654e0e2BECa",
+"type": "smart_contract",
+"addedAt": "2023-01-06T11:18:17.926Z",
+"revision": 0,
+"description": "GNSStakingV6_4_1",
+"isSafeHarbor": false,
+"isPrimacyOfImpact": false,
+"fund": null,
+"info": null
+},
+{
+"id": "WQtP6nzyfmUIrqICHdOxn",
+"url": "https://arbiscan.io/address/0x7edDE7e5900633F698EaB0Dbc97DE640fC5dC015",
+"type": "smart_contract",
+"addedAt": "2023-01-06T11:18:42.474Z",
+"revision": 0,
+"description": "GNSStakingV6_4_1",
+"isSafeHarbor": false,
+"isPrimacyOfImpact": false,
+"fund": null,
+"info": null
+},
+{
+"id": "6xMNlE9moIJ8oK8zGjhHjy",
+"url": "https://polygonscan.com/address/0xC7d91A130ad0521E212f04c2CFA2aDAf926df6AE",
+"type": "smart_contract",
+"addedAt": "2023-10-04T08:01:02.056Z",
+"revision": 0,
+"description": "GNSCompensationHandlerV6_4_1",
+"isSafeHarbor": false,
+"isPrimacyOfImpact": false,
+"fund": null,
+"info": null
+},
+{
+"id": "2KEehkMj6rN9CRWyCFpgJ6",
+"url": "https://arbiscan.io/address/0x30d8C505516Ab7693e2DE491bdceB028d8ae7EbF",
+"type": "smart_contract",
+"addedAt": "2023-10-04T08:01:23.610Z",
+"revision": 0,
+"description": "GNSCompensationHandlerV6_4_1",
+"isSafeHarbor": false,
+"isPrimacyOfImpact": false,
+"fund": null,
+"info": null
+},
+{
+"id": "5mbGfJ8gcexnekdYKGLi3U",
+"url": "https://polygonscan.com/address/0xd285f881886505b9ef6684e1aaa7949a56b0c7da",
+"type": "smart_contract",
+"addedAt": "2022-05-10T16:31:04.576Z",
+"revision": 0,
+"description": "GFarmTokenMigration",
+"isSafeHarbor": false,
+"isPrimacyOfImpact": false,
+"fund": null,
+"info": null
+},
+{
+"id": "3AkRO1MYnbm6bP3W1YI7Q2",
+"url": "https://etherscan.io/address/0x1E887E7115321B4ee5d58DD446eC09e12B45d81B",
+"type": "smart_contract",
+"addedAt": "2022-05-10T16:31:05.514Z",
+"revision": 0,
+"description": "GFarm",
+"isSafeHarbor": false,
+"isPrimacyOfImpact": false,
+"fund": null,
+"info": null
+},
+{
+"id": "3MC0xqRu8S9UaeZ2Dpx5i9",
+"url": "https://etherscan.io/address/0x14e2f9B0381Af4227D26BEE7d8E4D424466A7F3F",
+"type": "smart_contract",
+"addedAt": "2022-05-10T16:31:06.579Z",
+"revision": 0,
+"description": "GFarmNftSwap",
+"isSafeHarbor": false,
+"isPrimacyOfImpact": false,
+"fund": null,
+"info": null
+},
+{
+"id": "LmrleMwbDFcfbU5svwmzP",
+"url": "https://gains.trade/",
+"type": "websites_and_applications",
+"addedAt": "2023-08-01T21:34:20.943Z",
+"revision": 0,
+"description": "Trade Web",
+"isSafeHarbor": false,
+"isPrimacyOfImpact": false,
+"fund": null,
+"info": null
+},
+{
+"id": "3OeYp9Bh5JJhzP1zp9Sges",
+"url": "https://gainsnetwork.io/",
+"type": "websites_and_applications",
+"addedAt": "2023-08-01T21:34:42.401Z",
+"revision": 0,
+"description": "Main Web/App",
+"isSafeHarbor": false,
+"isPrimacyOfImpact": false,
+"fund": null,
+"info": null
+},
+{
+"id": "98756",
+"url": "https://immunefi.com/",
+"type": "smart_contract",
+"addedAt": "2026-02-06T15:58:36.804Z",
+"revision": 0,
+"description": "Primacy of Impact",
+"isSafeHarbor": false,
+"isPrimacyOfImpact": true,
+"fund": null,
+"info": null
+},
+{
+"id": "98751",
+"url": "https://immunefi.com/",
+"type": "websites_and_applications",
+"addedAt": "2026-02-06T15:58:36.804Z",
+"revision": 0,
+"description": "Primacy of Impact",
+"isSafeHarbor": false,
+"isPrimacyOfImpact": true,
+"fund": null,
+"info": null
+}
+],
+"impacts": [
+{
+"id": 1995,
+"type": "smart_contract",
+"severity": "low",
+"title": "Smart contract unable to operate due to lack of funds"
+},
+{
+"id": 1996,
+"type": "smart_contract",
+"severity": "low",
+"title": "Smart contract fails to deliver promised returns, but doesn\u2019t lose value"
+},
+{
+"id": 1997,
+"type": "smart_contract",
+"severity": "low",
+"title": "Block stuffing for profit"
+},
+{
+"id": 1998,
+"type": "smart_contract",
+"severity": "low",
+"title": "Theft of Gas"
+},
+{
+"id": 1999,
+"type": "smart_contract",
+"severity": "low",
+"title": "Unbounded gas consumption"
+},
+{
+"id": 2000,
+"type": "websites_and_applications",
+"severity": "low",
+"title": "Changing details of other users (including modifying browser local storage) without already-connected wallet interaction & with significant user interaction, such as: framing leading to modifying the backend/browser state(must demonstrate impact with PoC)"
+},
+{
+"id": 2001,
+"type": "websites_and_applications",
+"severity": "low",
+"title": "Taking over broken or expired outgoing links, such as: Social media handles, etc."
+},
+{
+"id": 2002,
+"type": "websites_and_applications",
+"severity": "low",
+"title": "Temporarily disabling user to access target site, such as: Locking up the victim from login, Cookie bombing, etc."
+},
+{
+"id": 23,
+"type": "smart_contract",
+"severity": "high",
+"title": "Theft of unclaimed yield"
+},
+{
+"id": 25,
+"type": "smart_contract",
+"severity": "high",
+"title": "Permanent freezing of unclaimed yield"
+},
+{
+"id": 2003,
+"type": "websites_and_applications",
+"severity": "high",
+"title": "Spoofing content on the target application (Persistent)"
+},
+{
+"id": 2004,
+"type": "websites_and_applications",
+"severity": "high",
+"title": "Users Confidential information disclosure such as Email"
+},
+{
+"id": 2005,
+"type": "websites_and_applications",
+"severity": "high",
+"title": "Subdomain Takeover without financial loss (applicable for subdomains with no addresses published)"
+},
+{
+"id": 2006,
+"type": "websites_and_applications",
+"severity": "high",
+"title": "Privilege escalation to access unauthorized functionalities"
+},
+{
+"id": 2007,
+"type": "websites_and_applications",
+"severity": "high",
+"title": "Taking down the application/website"
+},
+{
+"id": 31,
+"type": "smart_contract",
+"severity": "medium",
+"title": "Griefing (e.g. no profit motive for an attacker, but damage to the users or the protocol)"
+},
+{
+"id": 2008,
+"type": "smart_contract",
+"severity": "medium",
+"title": "Temporary freezing of funds, including unclaimed yield"
+},
+{
+"id": 2009,
+"type": "websites_and_applications",
+"severity": "medium",
+"title": "Changing details of other users without direct financial impact (CSRF)"
+},
+{
+"id": 2010,
+"type": "websites_and_applications",
+"severity": "medium",
+"title": "Third-Party API keys leakage that demonstrates loss of funds or modification on the website"
+},
+{
+"id": 52,
+"type": "websites_and_applications",
+"severity": "medium",
+"title": "Redirecting users to malicious websites (open redirect)"
+},
+{
+"id": 15,
+"type": "smart_contract",
+"severity": "critical",
+"title": "Direct theft of any user funds, whether at-rest or in-motion, other than unclaimed yield"
+},
+{
+"id": 2011,
+"type": "smart_contract",
+"severity": "critical",
+"title": "Insolvency"
+},
+{
+"id": 2012,
+"type": "smart_contract",
+"severity": "critical",
+"title": "Permanent freezing of user funds, other than unclaimed yield"
+},
+{
+"id": 2013,
+"type": "websites_and_applications",
+"severity": "critical",
+"title": "Ability to execute system commands"
+},
+{
+"id": 2014,
+"type": "websites_and_applications",
+"severity": "critical",
+"title": "Extract Sensitive data/files from the server such as /etc/passwd"
+},
+{
+"id": 2015,
+"type": "websites_and_applications",
+"severity": "critical",
+"title": "Stealing User Cookies"
+},
+{
+"id": 2016,
+"type": "websites_and_applications",
+"severity": "critical",
+"title": "Signing transactions for other users"
+},
+{
+"id": 2017,
+"type": "websites_and_applications",
+"severity": "critical",
+"title": "Redirection of user deposits and withdrawals"
+},
+{
+"id": 2018,
+"type": "websites_and_applications",
+"severity": "critical",
+"title": "Wallet interaction modification resulting in financial loss"
+},
+{
+"id": 2019,
+"type": "websites_and_applications",
+"severity": "critical",
+"title": "Subdomain takeover resulting in financial loss (applicable for subdomains with addresses published)"
+},
+{
+"id": 42,
+"type": "websites_and_applications",
+"severity": "critical",
+"title": "Direct theft of user funds"
+},
+{
+"id": 2020,
+"type": "websites_and_applications",
+"severity": "critical",
+"title": "Tampering with transactions submitted to the user\u2019s wallet"
+},
+{
+"id": 2021,
+"type": "websites_and_applications",
+"severity": "critical",
+"title": "Submitting malicious transactions to an already-connected wallet"
+}
+],
+"programImpacts": [
+{
+"id": 1995,
+"severity": "low",
+"assetType": "smart_contract",
+"description": "Smart contract unable to operate due to lack of funds",
+"isPredefined": false
+},
+{
+"id": 1996,
+"severity": "low",
+"assetType": "smart_contract",
+"description": "Smart contract fails to deliver promised returns, but doesn\u2019t lose value",
+"isPredefined": false
+},
+{
+"id": 1997,
+"severity": "low",
+"assetType": "smart_contract",
+"description": "Block stuffing for profit",
+"isPredefined": false
+},
+{
+"id": 1998,
+"severity": "low",
+"assetType": "smart_contract",
+"description": "Theft of Gas",
+"isPredefined": false
+},
+{
+"id": 1999,
+"severity": "low",
+"assetType": "smart_contract",
+"description": "Unbounded gas consumption",
+"isPredefined": false
+},
+{
+"id": 2000,
+"severity": "low",
+"assetType": "websites_and_applications",
+"description": "Changing details of other users (including modifying browser local storage) without already-connected wallet interaction & with significant user interaction, such as: framing leading to modifying the backend/browser state(must demonstrate impact with PoC)",
+"isPredefined": false
+},
+{
+"id": 2001,
+"severity": "low",
+"assetType": "websites_and_applications",
+"description": "Taking over broken or expired outgoing links, such as: Social media handles, etc.",
+"isPredefined": false
+},
+{
+"id": 2002,
+"severity": "low",
+"assetType": "websites_and_applications",
+"description": "Temporarily disabling user to access target site, such as: Locking up the victim from login, Cookie bombing, etc.",
+"isPredefined": false
+},
+{
+"id": 23,
+"severity": "high",
+"assetType": "smart_contract",
+"description": "Theft of unclaimed yield",
+"isPredefined": true
+},
+{
+"id": 25,
+"severity": "high",
+"assetType": "smart_contract",
+"description": "Permanent freezing of unclaimed yield",
+"isPredefined": true
+},
+{
+"id": 2003,
+"severity": "high",
+"assetType": "websites_and_applications",
+"description": "Spoofing content on the target application (Persistent)",
+"isPredefined": false
+},
+{
+"id": 2004,
+"severity": "high",
+"assetType": "websites_and_applications",
+"description": "Users Confidential information disclosure such as Email",
+"isPredefined": false
+},
+{
+"id": 2005,
+"severity": "high",
+"assetType": "websites_and_applications",
+"description": "Subdomain Takeover without financial loss (applicable for subdomains with no addresses published)",
+"isPredefined": false
+},
+{
+"id": 2006,
+"severity": "high",
+"assetType": "websites_and_applications",
+"description": "Privilege escalation to access unauthorized functionalities",
+"isPredefined": false
+},
+{
+"id": 2007,
+"severity": "high",
+"assetType": "websites_and_applications",
+"description": "Taking down the application/website",
+"isPredefined": false
+},
+{
+"id": 31,
+"severity": "medium",
+"assetType": "smart_contract",
+"description": "Griefing (e.g. no profit motive for an attacker, but damage to the users or the protocol)",
+"isPredefined": true
+},
+{
+"id": 2008,
+"severity": "medium",
+"assetType": "smart_contract",
+"description": "Temporary freezing of funds, including unclaimed yield",
+"isPredefined": false
+},
+{
+"id": 2009,
+"severity": "medium",
+"assetType": "websites_and_applications",
+"description": "Changing details of other users without direct financial impact (CSRF)",
+"isPredefined": false
+},
+{
+"id": 2010,
+"severity": "medium",
+"assetType": "websites_and_applications",
+"description": "Third-Party API keys leakage that demonstrates loss of funds or modification on the website",
+"isPredefined": false
+},
+{
+"id": 52,
+"severity": "medium",
+"assetType": "websites_and_applications",
+"description": "Redirecting users to malicious websites (open redirect)",
+"isPredefined": true
+},
+{
+"id": 15,
+"severity": "critical",
+"assetType": "smart_contract",
+"description": "Direct theft of any user funds, whether at-rest or in-motion, other than unclaimed yield",
+"isPredefined": true
+},
+{
+"id": 2011,
+"severity": "critical",
+"assetType": "smart_contract",
+"description": "Insolvency",
+"isPredefined": false
+},
+{
+"id": 2012,
+"severity": "critical",
+"assetType": "smart_contract",
+"description": "Permanent freezing of user funds, other than unclaimed yield",
+"isPredefined": false
+},
+{
+"id": 2013,
+"severity": "critical",
+"assetType": "websites_and_applications",
+"description": "Ability to execute system commands",
+"isPredefined": false
+},
+{
+"id": 2014,
+"severity": "critical",
+"assetType": "websites_and_applications",
+"description": "Extract Sensitive data/files from the server such as /etc/passwd",
+"isPredefined": false
+},
+{
+"id": 2015,
+"severity": "critical",
+"assetType": "websites_and_applications",
+"description": "Stealing User Cookies",
+"isPredefined": false
+},
+{
+"id": 2016,
+"severity": "critical",
+"assetType": "websites_and_applications",
+"description": "Signing transactions for other users",
+"isPredefined": false
+},
+{
+"id": 2017,
+"severity": "critical",
+"assetType": "websites_and_applications",
+"description": "Redirection of user deposits and withdrawals",
+"isPredefined": false
+},
+{
+"id": 2018,
+"severity": "critical",
+"assetType": "websites_and_applications",
+"description": "Wallet interaction modification resulting in financial loss",
+"isPredefined": false
+},
+{
+"id": 2019,
+"severity": "critical",
+"assetType": "websites_and_applications",
+"description": "Subdomain takeover resulting in financial loss (applicable for subdomains with addresses published)",
+"isPredefined": false
+},
+{
+"id": 42,
+"severity": "critical",
+"assetType": "websites_and_applications",
+"description": "Direct theft of user funds",
+"isPredefined": true
+},
+{
+"id": 2020,
+"severity": "critical",
+"assetType": "websites_and_applications",
+"description": "Tampering with transactions submitted to the user\u2019s wallet",
+"isPredefined": false
+},
+{
+"id": 2021,
+"severity": "critical",
+"assetType": "websites_and_applications",
+"description": "Submitting malicious transactions to an already-connected wallet",
+"isPredefined": false
+}
+],
+"programRewards": [
+{
+"id": 10072,
+"severity": "critical",
+"assetType": "smart_contract",
+"maxReward": 200000,
+"minReward": 25000,
+"rewardModel": "range",
+"rewardCalculationPercentage": 10
+},
+{
+"id": 10073,
+"severity": "high",
+"assetType": "smart_contract",
+"maxReward": 25000,
+"minReward": 10000,
+"rewardModel": "range"
+},
+{
+"id": 10074,
+"severity": "medium",
+"assetType": "smart_contract",
+"fixedReward": 10000,
+"rewardModel": "fixed"
+},
+{
+"id": 10075,
+"severity": "low",
+"assetType": "smart_contract",
+"fixedReward": 2500,
+"rewardModel": "fixed"
+},
+{
+"id": 10076,
+"severity": "critical",
+"assetType": "websites_and_applications",
+"fixedReward": 40000,
+"rewardModel": "fixed"
+},
+{
+"id": 10077,
+"severity": "high",
+"assetType": "websites_and_applications",
+"fixedReward": 10000,
+"rewardModel": "fixed"
+},
+{
+"id": 10078,
+"severity": "medium",
+"assetType": "websites_and_applications",
+"fixedReward": 5000,
+"rewardModel": "fixed"
+},
+{
+"id": 10079,
+"severity": "low",
+"assetType": "websites_and_applications",
+"fixedReward": 1000,
+"rewardModel": "fixed"
+}
+],
+"websiteUrl": null,
+"githubUrl": null,
+"description": "Gains Network is building the decentralized finance ecosystem of the future. Their first product, gTrade is a capital-efficient decentralized leveraged trading platform on Polygon and Arbitrum.",
+"prohibitedActivites": "- Any testing on mainnet or public testnet deployed code; all testing should be done on local-forks of either public testnet or mainnet\n- Any testing with pricing oracles or third-party smart contracts\n- Attempting phishing or other social engineering attacks against our employees and/or customers\n- Any testing with third-party systems and applications (e.g. browser extensions) as well as websites (e.g. SSO providers, advertising networks)\n- Any denial of service attacks that are executed against project assets\n- Automated testing of services that generates significant amounts of traffic\n- Public disclosure of an unpatched vulnerability in an embargoed bounty\n- [Any other actions prohibited by the Immunefi Rules](https://immunefi.com/rules/)\n",
+"feasibilityLimitations": "$2c",
+"responsiblePublicationCategory": "category_2",
+"defaultOutOfScopeBlockchain": "- Incorrect data supplied by third party oracles\n  - Not to exclude oracle manipulation/flash loan attacks\n- Impacts requiring basic economic and governance attacks (e.g. 51% attack)\n- Lack of liquidity impacts\n- Impacts from Sybil attacks\n- Impacts involving centralization risks",
+"defaultOutOfScopeSmartContract": "- Incorrect data supplied by third party oracles\n  - Not to exclude oracle manipulation/flash loan attacks\n- Impacts requiring basic economic and governance attacks (e.g. 51% attack)\n- Lack of liquidity impacts\n- Impacts from Sybil attacks\n- Impacts involving centralization risks",
+"defaultOutOfScopeGeneral": "- Impacts requiring attacks that the reporter has already exploited themselves, leading to damage\n- Impacts caused by attacks requiring access to leaked keys/credentials\n- Impacts caused by attacks requiring access to privileged addresses (including, but not limited to: governance and strategist contracts) without additional modifications to the privileges attributed\n- Impacts relying on attacks involving the depegging of an external stablecoin where the attacker does not directly cause the depegging due to a bug in code\n- Mentions of secrets, access tokens, API keys, private keys, etc. in Github will be considered out of scope without proof that they are in-use in production\n- Best practice recommendations\n- Feature requests\n- Impacts on test files and configuration files unless stated otherwise in the bug bounty program\n- Impacts requiring phishing or other social engineering attacks against project's employees and/or customers",
+"defaultOutOfScopeWebAndApplications": "$2d",
+"defaultProhibitedActivities": "- Any testing on mainnet or public testnet deployed code; all testing should be done on local-forks of either public testnet or mainnet\n- Any testing with pricing oracles or third-party smart contracts\n- Attempting phishing or other social engineering attacks against our employees and/or customers\n- Any testing with third-party systems and applications (e.g. browser extensions) as well as websites (e.g. SSO providers, advertising networks)\n- Any denial of service attacks that are executed against project assets\n- Automated testing of services that generates significant amounts of traffic\n- Public disclosure of an unpatched vulnerability in an embargoed bounty\n- [Any other actions prohibited by the Immunefi Rules](https://immunefi.com/rules/)",
+"defaultFeasibilityLimitations": "$2e",
+"customOutOfScopeInformation": null,
+"customProhibitedActivities": [],
+"eligibilityCriteria": [],
+"eligibilityCriteriaAdditionalInformation": null,
+"programCodebases": [
+{
+"id": 77,
+"url": "https://github.com/GainsNetwork",
+"title": "Gains Network Codebase",
+"description": "Program Codebase"
+},
+{
+"id": 78,
+"url": "https://github.com/GainsNetwork/GNS-ethereum",
+"title": "Gains Network Codebase",
+"description": "Program Codebase"
+}
+],
+"programDocumentations": [],
+"programOverview": "Gains Network is building the decentralized finance ecosystem of the future. Their first product, gTrade is a capital-efficient decentralized leveraged trading platform on Polygon and Arbitrum.\n\nFor more information about Gains Network, please visit [https://gains.trade/](https://gains.trade/).  \n\nThis bug bounty program is focused on their smart contracts, website and app and is focused on preventing:\n\n  - Direct theft of any user funds, whether at-rest or in-motion, other than unclaimed yield\n  - Permanent freezing of user funds, other than unclaimed yield\n  - Insolvency\n  - Theft of unclaimed yield\n  - Permanent freezing of unclaimed yield",
+"prioritizedVulnerabilities": "$2f",
+"rewardsBody": "$30",
+"outOfScopeAndRules": null,
+"assetsBodyV2": "$31",
+"impactsBody": null,
+"inviteOnly": false,
+"features": [],
+"isPayToSubmit": false,
+"isArbitration": false,
+"immunefiStandard": true,
+"premiumTriaging": false,
+"isSafeHarborActive": false,
+"rewardsToken": "ETH",
+"rewardsTokenNetwork": "Ethereum",
+"tags": {
+"language": [
+"Solidity"
+],
+"ecosystem": [
+"Arbitrum",
+"Polygon"
+],
+"productType": [
+"Bridge",
+"DEX",
+"Derivatives",
+"Options",
+"Perpetuals",
+"Staking",
+"Token"
+],
+"programType": [
+"Smart Contract",
+"Websites and Applications"
+],
+"projectType": [
+"Defi",
+"NFT"
+],
+"general": [
+"Immunefi Standard",
+"KYC Not Required",
+"PoC Required",
+"Primacy of Impact"
+],
+"featured": [
+"Launched Recently"
+]
+},
+"technologies": [],
+"legacy": {
+"web_rewards": [
+{
+"level": "Critical",
+"payout": "USD $40,000"
+},
+{
+"level": "High",
+"payout": "USD $10,000"
+},
+{
+"level": "Medium",
+"payout": "USD $5,000"
+},
+{
+"level": "Low",
+"payout": "USD $1,000"
+}
+],
+"technologies": [],
+"blockchain_rewards": [],
+"smartcontract_rewards": [
+{
+"level": "Critical",
+"payout": "USD $25,000 to USD $400,000"
+},
+{
+"level": "High",
+"payout": "USD $10,000 to USD $25,000"
+},
+{
+"level": "Medium",
+"payout": "USD $10,000"
+},
+{
+"level": "Low",
+"payout": "USD $2,500"
+}
+]
+},
+"knownIssues": [],
+"primacy": "primacy_of_impact",
+"findingsUrl": null,
+"proofOfConceptType": "required",
+"formatVersion": null,
+"rewards": [
+{
+"id": 10072,
+"severity": "critical",
+"assetType": "smart_contract",
+"maxReward": 200000,
+"minReward": 25000,
+"rewardModel": "range",
+"rewardCalculationPercentage": 10
+},
+{
+"id": 10073,
+"severity": "high",
+"assetType": "smart_contract",
+"maxReward": 25000,
+"minReward": 10000,
+"rewardModel": "range"
+},
+{
+"id": 10074,
+"severity": "medium",
+"assetType": "smart_contract",
+"fixedReward": 10000,
+"rewardModel": "fixed"
+},
+{
+"id": 10075,
+"severity": "low",
+"assetType": "smart_contract",
+"fixedReward": 2500,
+"rewardModel": "fixed"
+},
+{
+"id": 10076,
+"severity": "critical",
+"assetType": "websites_and_applications",
+"fixedReward": 40000,
+"rewardModel": "fixed"
+},
+{
+"id": 10077,
+"severity": "high",
+"assetType": "websites_and_applications",
+"fixedReward": 10000,
+"rewardModel": "fixed"
+},
+{
+"id": 10078,
+"severity": "medium",
+"assetType": "websites_and_applications",
+"fixedReward": 5000,
+"rewardModel": "fixed"
+},
+{
+"id": 10079,
+"severity": "low",
+"assetType": "websites_and_applications",
+"fixedReward": 1000,
+"rewardModel": "fixed"
+}
+],
+"newProgramRewardsEnabled": true
+}
